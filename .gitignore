@@ -1,0 +1,46 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Virtual environments
+venv/
+env/
+.venv/
+.env/
+
+# Environment variables
+.env
+.env.local
+
+# Streamlit
+.streamlit/secrets.toml
+
+# Project generated files
+.shopmind_memory.json
+
+# macOS
+__MACOSX/
+.DS_Store
+*.DS_Store
+
+# Zip files
+*.zip
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Replit
+.local/
+uv.lock
+pyproject.toml

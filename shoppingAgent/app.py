@@ -10,6 +10,10 @@ import streamlit as st
 import os
 import time
 from dotenv import load_dotenv
+import sys
+
+# Ensure shoppingAgent/ is on the path (needed for Streamlit Cloud)
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 load_dotenv()
 
