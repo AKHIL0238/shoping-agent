@@ -1,0 +1,302 @@
+{
+  "preferences": {
+    "keywords": [
+      "best",
+      "value",
+      "smartphones",
+      "good",
+      "battery",
+      "backup,",
+      "suitable",
+      "coding",
+      "light",
+      "gaming",
+      "laptop",
+      "under",
+      "50000",
+      "college",
+      "budget",
+      "camera,",
+      "long",
+      "life",
+      "smartphone",
+      "camera",
+      "capable,",
+      "bracelets",
+      "women"
+    ],
+    "use_case": "coding, light gaming, battery backup, college student",
+    "typical_budget": 20194,
+    "alert_email": "sathwikatesting01@gmail.com"
+  },
+  "history": [
+    {
+      "query": "best smartphones under 15000",
+      "intent": {
+        "keywords": "smartphones",
+        "max_price": 15000,
+        "preferences": "best value",
+        "category": "Electronics"
+      },
+      "results": [
+        {
+          "name": "Oppo K13x 5G",
+          "price": 7999.0,
+          "rating": 4.9,
+          "link": "https://www.google.com/search?ibp=oshop&q=best smartphone under 15000 India 2024 under 15000&prds=catalogid:12820047469950280639,headlineOfferDocid:2344426383265363719,imageDocid:2558746850640331226,rds:PC_8380144295487060150|PROD_PC_8380144295487060150,gpcid:8380144295487060150,mid:576462826115507723,pvt:hg&hl=en&gl=in&udm=28",
+          "image": "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcQzcKLOoXHndw5L4R8jjlj5g9YyK448IZFMaB_ZweuNwoXQIm5inu2ufIfFiNl4NIWw_SnA8ZMqQhjLLf7MAhQIUGI-DzWTmIYlwusohIQtScaXygWpWvg8",
+          "source": "93mobiles",
+          "reviews": 8,
+          "score": 70.24
+        },
+        {
+          "name": "Realme C71 Mobile Phone",
+          "price": 8999.0,
+          "rating": 4.9,
+          "link": "https://www.google.com/search?ibp=oshop&q=best smartphone under 15000 India 2024 under 15000&prds=catalogid:3818880732341009005,headlineOfferDocid:1511900736264458654,imageDocid:3377781140760755816,rds:PC_12485838771887192400|PROD_PC_12485838771887192400,gpcid:12485838771887192400,mid:576462864957627360,pvt:hg&hl=en&gl=in&udm=28",
+          "image": "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcS76TlFBxz85bd-f0grR5lQaaKGmkqtntC2EmlQq3q0k-buATjPlaftqQ3ooNJTw6MQyr8QrIQG7k06-1RekS4XAhYuzruHGfNg_YinderaNzUNhaFkGRQK7g",
+          "source": "Croma",
+          "reviews": 11000,
+          "score": 67.9
+        },
+        {
+          "name": "Samsung Galaxy 5G",
+          "price": 8999.0,
+          "rating": 4.9,
+          "link": "https://www.google.com/search?ibp=oshop&q=best smartphone under 15000 India 2024 under 15000&prds=catalogid:1181051388362067119,headlineOfferDocid:414485578351053858,imageDocid:6755052667731761114,rds:PC_5148135625556976272|PROD_PC_5148135625556976272,gpcid:5148135625556976272,mid:576462823129635666,pvt:hg&hl=en&gl=in&udm=28",
+          "image": "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcSfy_lCaIwT_hp8AbcjTeT3kwz2MUShwGdXijKwTdVIBTf--sEGZnta6aKszIJ3kjscaGl4Qw81EJVUrz-TLOhQ7TnHcVFw_C1eXjPMQWdP8Sk7I2an6yP3qg",
+          "source": "National Mobile",
+          "reviews": 5000,
+          "score": 67.9
+        },
+        {
+          "name": "Realme C73 5G Mobile Phone",
+          "price": 8999.0,
+          "rating": 4.8,
+          "link": "https://www.google.com/search?ibp=oshop&q=top budget Android phone under 15000 rupees under 15000&prds=catalogid:12998154089175608326,headlineOfferDocid:8999538364036033611,imageDocid:3525388871693752501,rds:PC_8479376135694033900|PROD_PC_8479376135694033900,gpcid:8479376135694033900,mid:576462548991119893,pvt:hg&hl=en&gl=in&udm=28",
+          "image": "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcTMnWHAluXpBu0UWQYwPhhp8rV97xjfnLwARAD37B4WPebDn-l3jt9T9bz4MnfRAfBcJEM66ZWl5ENRE5pv0UVkLg4m39l5b0Dj1LH3KgOHR6unCA-MoqnVqQ",
+          "source": "93mobiles",
+          "reviews": 26,
+          "score": 66.8
+        },
+        {
+          "name": "G45 5g (viva Magenta, 128 Gb, 5000 Mah)",
+          "price": 9890.0,
+          "rating": 4.9,
+          "link": "https://www.google.com/search?ibp=oshop&q=best smartphone under 15000 India 2024 under 15000&prds=catalogid:12148335579541670168,headlineOfferDocid:3135050309405730798,imageDocid:12719284845720031888,rds:PC_11844924945552275895|PROD_PC_11844924945552275895,gpcid:11844924945552275895,pvt:hg&hl=en&gl=in&udm=28",
+          "image": "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcQ_bUlUfbnmny1cmvKGphwN7KcOV1UkIf29nPrwdAGlZfZg-V7_PXk6381jg6cW5SV4Qy-L7NsZZNiptWulR1sqZJ_JW-_h",
+          "source": "addmecart",
+          "reviews": 1200,
+          "score": 65.82
+        }
+      ],
+      "recommendation": "I recommend the **Oppo K13x 5G** at ₹7,999 with a 4.9 rating—it's the best value in your budget and leaves room for other college essentials. This phone excels at battery backup and handles coding tasks plus light gaming smoothly, making it ideal for a student lifestyle. You'll save over ₹1,000 compared to other top-rated options while getting the same performance.",
+      "timestamp": 1776616642.2748263
+    },
+    {
+      "query": "I am a college student. Suggest a budget laptop under ₹60,000 for coding, light gaming, and battery backup. Compare 3 options and recommend the best one.",
+      "intent": {
+        "keywords": "laptop under 50000 college coding gaming",
+        "max_price": 50000,
+        "preferences": "good battery backup, suitable for coding and light gaming",
+        "category": "Electronics"
+      },
+      "results": [
+        {
+          "name": "Techie HP Pavilion 15-cs0000 Laptop Battery",
+          "price": 1999.0,
+          "rating": 4.8,
+          "link": "https://www.google.com/search?ibp=oshop&q=best value laptop coding gaming battery under 50000 India 2024&prds=catalogid:4329905260338404942,headlineOfferDocid:15723276426218706292,imageDocid:12633500696742701127,rds:PC_13177598014070330793|PROD_PC_13177598014070330793,gpcid:13177598014070330793,mid:576462781679733138,pvt:hg&hl=en&gl=in&udm=28",
+          "image": "https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcQQHDYyjhkNAO9b5lfJS6tETMchI2PYd2L93joGyQgxvREPeluu3xn7dJtY8GgPykUHA7prX0cBv_NxZLhUfUsFlcO6TLvDMh5fLLqSWzVvo6EQjU7afB2qsw",
+          "source": "Techie",
+          "reviews": 112,
+          "score": 96.4,
+          "goal_match": "Test goal"
+        },
+        {
+          "name": "HP Pavilion Gaming Laptop Battery",
+          "price": 1449.0,
+          "rating": 4.6,
+          "link": "https://www.google.com/search?ibp=oshop&q=best value laptop coding gaming battery under 50000 India 2024&prds=catalogid:9432151215626014807,headlineOfferDocid:4447123309946644575,imageDocid:18064587399673001394,rds:CID_9432151215626014807|PROD_CID_9432151215626014807,gpcid:9143752568945745975,pvt:hg&hl=en&gl=in&udm=28",
+          "image": "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcRlQsutaFlKdD00m6HAHD1KAbbI2UYioaKHtSL1T1R2shQGvihn3eJxk1s1MO3T0f7awsxtDb_m4wtCv1EbE9vnrshDcKPB",
+          "source": "amazon.in",
+          "reviews": 25,
+          "score": 94.59,
+          "goal_match": "Test goal"
+        },
+        {
+          "name": "HP Pavilion 15CC 15CD Series Battery",
+          "price": 1720.0,
+          "rating": 4.6,
+          "link": "https://www.google.com/search?ibp=oshop&q=best value laptop coding gaming battery under 50000 India 2024&prds=catalogid:11890347095042569728,headlineOfferDocid:18348278890675271230,imageDocid:2423507203612394379,rds:PC_9190422734927050130|PROD_PC_9190422734927050130,gpcid:9190422734927050130,mid:576462665315110375,pvt:hg&hl=en&gl=in&udm=28",
+          "image": "https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcSgIDVAPCgzgcbXVH9p6mMlriBEFTiD5dpW-sTaUImzYkxOiqO_3MrYjPzSGWGcZjZNzY5hSOKm-OLKL22RJFONZwsFBcqPEGXWp7P55TetlkgLiv_0w8XXjg",
+          "source": "Flipkart",
+          "reviews": 38,
+          "score": 94.4
+        },
+        {
+          "name": "Sell Lenovo IdeaPad Slim 3 83ER008GIN (Intel Core i5 12th Gen) Laptop",
+          "price": 13000.0,
+          "rating": 4.8,
+          "link": "https://www.google.com/search?ibp=oshop&q=Lenovo IdeaPad Slim 3 i5 12th gen laptop India under 50000&prds=productid:1272896241095461177,headlineOfferDocid:1272896241095461177,imageDocid:7816301608660156977,rds:PC_11026619360130904969|PROD_PC_11026619360130904969,pvt:hg&hl=en&gl=in&udm=28",
+          "image": "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcT3q_zeQH5_aj8yRy7HXb_Zl-JnTSSqpuxxSknUhOajzqYXnupQQVgWdJiKHZiSkKSV2A2hR9lOvTnOjQ8D1Qa306G07-gh7A",
+          "source": "GameLoot",
+          "reviews": 9,
+          "score": 88.7,
+          "goal_match": "Test goal"
+        },
+        {
+          "name": "Dell 33YDH Original OEM 3500mAh 4 Cell Laptop Battery",
+          "price": 1849.0,
+          "rating": 4.9,
+          "link": "https://www.google.com/search?ibp=oshop&q=best value laptop coding gaming battery under 50000 India 2024&prds=catalogid:132438773598290687,headlineOfferDocid:2045850239606029743,imageDocid:4576410323902981188,rds:PC_5268650056327723827|PROD_PC_5268650056327723827,gpcid:5268650056327723827,mid:576462887685843452,pvt:hg&hl=en&gl=in&udm=28",
+          "image": "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcQvvP5_5OJ_3yVD8Y-U6Y7tpzcdQMzU92eeXbZ3S7gdkulscjwIkFwYJ4oaMiz2BJdCj-iUEMKQP-ap2fUpU_1dhsFjIgff5YUIc4c3s6pXnpReMOBc8VNO",
+          "source": "WMart",
+          "reviews": 50,
+          "score": 87.61,
+          "goal_match": "Test goal"
+        }
+      ],
+      "recommendation": "I appreciate your interest, but I need to clarify that the search results shown are laptop **batteries**, not complete laptops. To properly recommend a budget laptop under ₹60,000 for coding, light gaming, and battery backup, I'd need results for actual laptop models like the Lenovo IdeaPad Slim 3 (₹13,000 base price) or comparable options from Dell/ASUS/HP that fit your criteria and budget.\n\nCould you search specifically for \"best budget gaming laptops under 60000\" or \"college laptop under 60000 with good battery\" so I can compare full devices rather than just replacement batteries?",
+      "timestamp": 1776613462.4061272
+    },
+    {
+      "query": "best smartphones under 10000",
+      "intent": {
+        "keywords": "smartphones",
+        "max_price": 10000,
+        "preferences": "best budget",
+        "category": "Electronics"
+      },
+      "results": [],
+      "recommendation": "Best Smartphones Under ₹10,000 in India (2025)\n\n> *Based on expert analysis, user reviews, and your preferences: camera · battery life · light gaming · college use*\n\n---\n\n## 🏆 TOP 5 PICKS — Ranked for YOU\n\n---\n\n### 🥇 #1 — **Redmi 13C 5G** *(Best Overall)*\n| Feature | Detail |\n|---|---|\n| 💰 **Price** | ₹8,999 – ₹9,499 |\n| 📱 **Display** | 6.74\" HD+ 90Hz |\n| ⚙️ **Processor** | MediaTek Dimensity 6100+ (5G) |\n| 📷 **Camera** | 50MP AI rear + 5MP front |\n| 🔋 **Battery** | 5,000 mAh + 18W fast charge |\n| 💾 **RAM/Storage** | 4GB / 128GB |\n| ⭐ **Rating** | 4.2 / 5 |\n\n**Why it wins for you:** 5G-ready (future-proof!), strong 50MP camera, large battery, and smooth 90Hz display. Handles light gaming well with the Dimensity 6100+ chip. Best value under ₹10K right now.\n\n---\n\n### 🥈 #2 — **Samsung Galaxy M04** *(Best Brand Trust + Camera)*\n| Feature | Detail |\n|---|---|\n| 💰 **Price** | ₹7,999 – ₹8,499 |\n| 📱 **Display** | 6.5\" HD+ |\n| ⚙️ **Processor** | MediaTek Helio G35 |\n| 📷 **Camera** | 50MP + 2MP rear, 5MP front |\n| 🔋 **Battery** | 5,000 mAh |\n| 💾 **RAM/Storage** | 4GB / 64GB |\n| ⭐ **Rating** | 4.0 / 5 |\n\n**Why it stands out:** Samsung's trusted software support, clean UI, decent camera for social media, and solid after-sales service — great for college students who value reliability.\n\n---\n\n### 🥉 #3 — **Poco C65** *(Best Performance + Display)*\n| Feature | Detail |\n|---|---|\n| 💰 **Price** | ₹8,499 – ₹9,999 |\n| 📱 **Display** | 6.74\" HD+ **90Hz** |\n| ⚙️ **Processor** | Helio G85 |\n| 📷 **Camera** | 50MP AI rear |\n| 🔋 **Battery** | 5,000 mAh + 18W |\n| 💾 **RAM/Storage** | 6GB / 128GB |\n| ⭐ **Rating** | 4.1 / 5 |\n\n**Why it's great for gaming:** Helio G85 handles BGMI/PUBG lite and casual gaming smoothly. The **6GB RAM** variant at ~₹9,999 is an exceptional deal. 90Hz screen feels premium.\n\n---\n\n### 4️⃣ **Realme C55** *(Best Camera Experience)*\n| Feature | Detail |\n|---|---|\n| 💰 **Price** | ₹9,499 – ₹9,999 |\n| 📱 **Display** | 6.72\" HD+ 90Hz |\n| ⚙️ **Processor** | Helio G88 |\n| 📷 **Camera** | **64MP** rear (best-in-class at this price!) |\n| 🔋 **Battery** | 5,000 mAh + 33W fast charge |\n| 💾 **RAM/Storage** | 6GB / 128GB |\n| ⭐ **Rating** | 4.2 / 5 |\n\n**Why it's special:** The **64MP camera** and **33W fast charging** are exceptional for this price. If photography is your #1 priority, this is the phone to buy.\n\n---\n\n### 5️⃣ **Itel P55** *(Best Battery Life)*\n| Feature | Detail |\n|---|---|\n| 💰 **Price** | ₹6,999 – ₹7,499 |\n| 📱 **Display** | 6.6\" HD+ |\n| ⚙️ **Processor** | Unisoc T606 |\n| 📷 **Camera** | 13MP rear |\n| 🔋 **Battery** | **6,000 mAh** 🔋 |\n| 💾 **RAM/Storage** | 4GB / 128GB |\n| ⭐ **Rating** | 3.8 / 5 |\n\n**Why it's here:** If you NEVER want to worry about charging during college days, the **6,000 mAh battery** is unmatched. Easily lasts 2 full days.\n\n---\n\n## 🎯 Quick Decision Guide — Which One is FOR YOU?\n\n| Your Priority | 🏆 Best Pick |\n|---|---|\n| 🎮 Light Gaming | **Poco C65** (6GB RAM + Helio G85) |\n| 📷 Best Camera | **Realme C55** (64MP + 33W charging) |\n| 🔋 Battery Life | **Itel P55** (6,000 mAh) |\n| 📶 5G + Future-Proof | **Redmi 13C 5G** |\n| 🏷️ Brand Value | **Samsung Galaxy M04** |\n| ⚖️ Best All-Rounder | **Redmi 13C 5G** |\n\n---\n\n## 💡 ShopMind's Expert Take (For Your Profile)\n\n> As a **college student** who values **camera, battery, and light gaming**, the **Redmi 13C 5G at ~₹8,999** is your #1 pick — it ticks every box and adds **5G** for future-proofing. If budget allows stretching to ₹9,999, the **Realme C55** gives you a stunning **64MP camera + 33W fast charging** that feels like a premium phone at a budget price.\n\n---\n\n## 🛒 Where to Buy (Best Prices)\n- **Flipkart** — Redmi & Realme frequent flash sales\n- **Amazon India** — Samsung M04 often discounted\n- **Poco.com** — Poco C65 official deals\n- **Jio/Airtel Offers** — Sometimes bundled with plan discounts\n\n---\n\n> ⚠️ *Note: Live product availability couldn't be fetched due to a temporary API rate limit. The prices above are based on current market knowledge (2024–25). I recommend verifying on Flipkart/Amazon before purchasing.*",
+      "timestamp": 1776611854.947201
+    },
+    {
+      "query": "gaming laptop under 80000",
+      "intent": {
+        "keywords": "gaming laptop",
+        "max_price": 80000
+      },
+      "results": [
+        {
+          "name": "ASUS ROG Strix",
+          "price": 75000
+        }
+      ],
+      "recommendation": "ASUS ROG is best",
+      "timestamp": 1776611413.0151408
+    },
+    {
+      "query": "smartphones under 25000",
+      "intent": {
+        "keywords": "smartphones",
+        "max_price": 25000,
+        "preferences": "",
+        "category": "Electronics"
+      },
+      "results": [],
+      "recommendation": "",
+      "timestamp": 1776610880.7638333
+    },
+    {
+      "query": "Suggest a smartphone under ₹25,000 with best camera and battery.",
+      "intent": {
+        "keywords": "smartphone camera battery",
+        "max_price": 25000,
+        "preferences": "best camera, long battery life",
+        "category": "Electronics"
+      },
+      "results": [],
+      "recommendation": "",
+      "timestamp": 1776610709.382074
+    },
+    {
+      "query": "Suggest a smartphone under ₹25,000 with best camera and battery. Compare top 3 and recommend one.",
+      "intent": {
+        "keywords": "smartphone camera battery",
+        "max_price": 25000,
+        "preferences": "best camera, long battery life",
+        "category": "Electronics"
+      },
+      "results": [],
+      "recommendation": "",
+      "timestamp": 1776610626.7222488
+    },
+    {
+      "query": "bracelets for women",
+      "intent": {
+        "keywords": "bracelets for women",
+        "max_price": null,
+        "preferences": "",
+        "category": "Jewelry"
+      },
+      "results": [
+        {
+          "name": "Yellow Chimes Women's Golden Bangle Bracelet",
+          "price": 86.58,
+          "rating": 5.0,
+          "link": "https://www.google.com/search?ibp=oshop&q=women fashion bangles bracelets India under 50000&prds=catalogid:2267911133491584915,headlineOfferDocid:3020742800923202856,imageDocid:8026736419610626536,rds:PC_9620723778001714969|PROD_PC_9620723778001714969,gpcid:9620723778001714969,mid:576462791438041026,pvt:a&hl=en&gl=in&udm=28",
+          "image": "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcTOZ9_MuPNMZZF4obvpM41b7Rl72aj5ZKs1_LvbsGE0_C0DTyH9s0BgismHww5qLFDfMtDZiatC98EQKXIPTzi-ZKjQkXonoF1KNafatiBZJRcawUUFgSCtrA",
+          "source": "amazon.in",
+          "reviews": 1,
+          "score": 99.94
+        },
+        {
+          "name": "Yellow Chimes Women's Charm Chain Bracelet",
+          "price": 229.0,
+          "rating": 5.0,
+          "link": "https://www.google.com/search?ibp=oshop&q=charm bracelets women gift jewellery under 50000&prds=catalogid:6709099162021650568,headlineOfferDocid:13544332477552798886,imageDocid:9638879868036660690,rds:PC_14257443872573184176|PROD_PC_14257443872573184176,gpcid:14257443872573184176,mid:576462710024788899,pvt:a&hl=en&gl=in&udm=28",
+          "image": "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcT_JPEUVYmH8paRUYYC8cQspZFTGD86BPofujLPqqom1wR5Dqu8GpJp6UJLpc_dEnuGMAdONQKfZOXXbWohomN79SaMP4Xg9mnbW4SaQbf9NOARjIWR_HKF",
+          "source": "amazon.in",
+          "reviews": 1,
+          "score": 99.84
+        },
+        {
+          "name": "Yellow Chimes Women's Heart Charm Bracelet",
+          "price": 236.6,
+          "rating": 5.0,
+          "link": "https://www.google.com/search?ibp=oshop&q=charm bracelets women gift jewellery under 50000&prds=catalogid:12215077108298405303,headlineOfferDocid:6979503154824467855,imageDocid:4029862184708713203,rds:PC_11077440082892612724|PROD_PC_11077440082892612724,gpcid:11077440082892612724,mid:576462434428383997,pvt:a&hl=en&gl=in&udm=28",
+          "image": "https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcR3zRTDXZcFq15y9T5hiqWBPUn1fFkrMjF246yWuDjkIO64UAh_pjmNFX6Ijgza3V0bGiBSvMDoL0xlJN5NJpzEVhbDPdWjOtw8iNiXH2nFj7sjjKSqzMQsZPA",
+          "source": "Amazon.in",
+          "reviews": 1,
+          "score": 99.83
+        },
+        {
+          "name": "Personalised Charm Bracelet",
+          "price": 1799.0,
+          "rating": 5.0,
+          "link": "https://www.google.com/search?ibp=oshop&q=charm bracelets women gift jewellery under 50000&prds=catalogid:17449312233203806941,headlineOfferDocid:12085508536140052477,imageDocid:13412697392526332518,rds:PC_10329772826659512885|PROD_PC_10329772826659512885,gpcid:10329772826659512885,pvt:a&hl=en&gl=in&udm=28",
+          "image": "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcS6E76ABQulAIFbakOEgWMOIJXKMuDCZiL2nniHL1GteZAdv8CVnjjatvZtqoxvFAwTVlJF3cG-kNug-89Qv9ylpFYDSo8cIY0E5wc0Aoo",
+          "source": "I Blame Beads",
+          "reviews": 9,
+          "score": 98.74
+        },
+        {
+          "name": "Open Orb Cuff Bracelet",
+          "price": 999.0,
+          "rating": 4.8,
+          "link": "https://www.google.com/search?ibp=oshop&q=bracelets for women gold silver under 50000&prds=catalogid:2460023583086860368,headlineOfferDocid:14017120047058541928,imageDocid:6384968517554500598,rds:PC_3555157180417368544|PROD_PC_3555157180417368544,gpcid:3555157180417368544,mid:576462873352291304,pvt:a&hl=en&gl=in&udm=28",
+          "image": "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcR0_IuSnSOetNDo1GTvhEIM60FgoL2OsRkdLMnKEsMuprXLMl4U62dT9rgqb3jddfnmG0SRErQB4yBJz_p_gqZoi555poZ2sgGJ2BjMrcpHOf_1G_48nodO8tM",
+          "source": "palmonas.com",
+          "reviews": 5,
+          "score": 97.1
+        }
+      ],
+      "recommendation": "# Recommendation\n\nI'd recommend the **Yellow Chimes Women's Golden Bangle Bracelet** at just ₹86 with a perfect 5.0 rating—it's the best value option that delivers on quality without stretching your budget. Its unbeatable price makes it ideal for adding multiple pieces to your collection while staying well within your ₹60,000 goal.",
+      "timestamp": 1776609266.2590177
+    }
+  ],
+  "goals": [
+    {
+      "id": "G608878",
+      "description": "Test goal",
+      "keywords": "gaming laptop",
+      "budget": 60000,
+      "deadline": "June 2026",
+      "created": 1776608878.2866898,
+      "status": "achieved",
+      "achieved": 1776613721.4212716
+    }
+  ]
+}
