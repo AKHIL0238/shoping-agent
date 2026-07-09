@@ -260,7 +260,7 @@ def _plain(order: dict) -> str:
         f"PAYMENT ID:          {order.get('payment_id','')}",
         f"",
         f"Thank you for shopping with ShopMind AI!",
-        f"Powered by Anthropic Claude & SerpAPI",
+        f"Powered by Groq & SerpAPI",
     ]
     return "\n".join(lines)
 
@@ -339,7 +339,7 @@ def _html(order: dict) -> str:
               <h1 style="margin:0;color:#ffffff;font-size:24px;font-weight:800;
                 letter-spacing:-0.3px;">ShopMind AI</h1>
               <p style="margin:6px 0 0;color:rgba(255,255,255,0.7);font-size:13px;">
-                Powered by Anthropic Claude
+                Powered by Groq
               </p>
             </td>
           </tr>
@@ -498,7 +498,7 @@ def _html(order: dict) -> str:
                 Thank you for shopping with ShopMind AI! 🎊
               </p>
               <p style="margin:0;color:rgba(255,255,255,0.55);font-size:12px;">
-                © 2025 ShopMind AI · Powered by Anthropic Claude &amp; SerpAPI
+                © 2025 ShopMind AI · Powered by Groq Anthropic Claude &amp; SerpAPIamp; SerpAPI
               </p>
             </td>
           </tr>
@@ -537,7 +537,7 @@ def _plain_cancel(order: dict) -> str:
         f"If you paid online, your refund will be processed within 5–7 business days.",
         f"",
         f"We hope to see you again soon!",
-        f"ShopMind AI · Powered by Anthropic Claude & SerpAPI",
+        f"ShopMind AI · Powered by Groq & SerpAPI",
     ]
     return "\n".join(lines)
 
@@ -599,7 +599,7 @@ def _html_cancel(order: dict) -> str:
               <div style="font-size:36px;margin-bottom:10px;">🛍️</div>
               <h1 style="margin:0;color:#ffffff;font-size:24px;font-weight:800;">ShopMind AI</h1>
               <p style="margin:6px 0 0;color:rgba(255,255,255,0.7);font-size:13px;">
-                Powered by Anthropic Claude
+                Powered by Groq
               </p>
             </td>
           </tr>
@@ -688,7 +688,7 @@ def _html_cancel(order: dict) -> str:
                 We hope to see you again soon! 💜
               </p>
               <p style="margin:0;color:rgba(255,255,255,0.55);font-size:12px;">
-                © 2025 ShopMind AI · Powered by Anthropic Claude &amp; SerpAPI
+                © 2025 ShopMind AI · Powered by Groq Anthropic Claude &amp; SerpAPIamp; SerpAPI
               </p>
             </td>
           </tr>

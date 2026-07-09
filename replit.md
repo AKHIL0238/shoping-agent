@@ -1,11 +1,11 @@
 # ShopMind AI - Shopping Agent
 
 ## Overview
-A multi-agent AI shopping assistant that helps users find and compare products across Indian e-commerce platforms. Uses a ReAct architecture powered by Claude (Anthropic) and SerpAPI (Google Shopping).
+A multi-agent AI shopping assistant that helps users find and compare products across Indian e-commerce platforms. Uses a ReAct architecture powered by Groq (Llama) and SerpAPI (Google Shopping).
 
 ## Tech Stack
 - **Frontend:** Streamlit (glassmorphism dark theme UI)
-- **LLM:** Claude via Anthropic API
+- **LLM:** Groq (llama-3.3-70b-versatile / llama-3.1-8b-instant)
 - **Search:** SerpAPI (Google Shopping India)
 - **Agent Framework:** LangGraph
 - **Language:** Python 3.11
@@ -37,7 +37,7 @@ cd shoppingAgent && streamlit run app.py --server.port 5000 --server.address 0.0
 ```
 
 ## Required Environment Variables
-- `ANTHROPIC_API_KEY` - Claude API key
+- `GROQ_API_KEY` - Groq API key (get one free at console.groq.com)
 - `SERPAPI_API_KEY` - SerpAPI key for Google Shopping
 
 ## GitHub Push Note

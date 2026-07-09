@@ -1,6 +1,6 @@
 """
 Intent Agent — parses natural-language shopping queries into structured intent.
-Uses Claude Haiku (fast + cheap).  Regex fallback if API fails.
+Uses Groq Llama (fast + cheap).  Regex fallback if API fails.
 """
 
 from __future__ import annotations
@@ -9,7 +9,7 @@ import re
 import json
 from typing import Dict, Any
 
-import anthropic
+import groq
 
 
 _STOP_WORDS = {
@@ -50,12 +50,12 @@ def _extract_price(text: str) -> float | None:
 
 class IntentAgent:
     def __init__(self):
-        self._client: anthropic.Anthropic | None = None
+        self._client: groq.Groq | None = None
 
     @property
-    def client(self) -> anthropic.Anthropic:
+    def client(self) -> groq.Groq:
         if self._client is None:
-            self._client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
+            self._client = groq.Groq(api_key=os.getenv("GROQ_API_KEY"))
         return self._client
 
     def parse_intent(self, query: str) -> Dict[str, Any]:
@@ -78,13 +78,15 @@ class IntentAgent:
             "No markdown, no extra text — raw JSON only."
         )
         try:
-            msg = self.client.messages.create(
-                model="claude-haiku-4-5-20251001",
+            msg = self.client.chat.completions.create(
+                model="llama-3.1-8b-instant",
                 max_tokens=256,
-                system=system,
-                messages=[{"role": "user", "content": query}],
+                messages=[
+                    {"role": "system", "content": system},
+                    {"role": "user", "content": query},
+                ],
             )
-            text = re.sub(r"```(?:json)?", "", msg.content[0].text).strip("` \n")
+            text = re.sub(r"```(?:json)?", "", msg.choices[0].message.content).strip("` \n")
             intent = json.loads(text)
             intent.setdefault("keywords", _clean_keywords(query))
             intent.setdefault("max_price", _extract_price(query))

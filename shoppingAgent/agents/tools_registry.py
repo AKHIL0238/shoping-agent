@@ -15,7 +15,7 @@ import json
 import os
 from typing import Any, Dict, List, Optional
 
-import anthropic
+import groq
 
 from agents.intent_agent import IntentAgent
 from agents.search       import SearchAgent
@@ -24,7 +24,7 @@ from agents.recommend    import RecommendAgent
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# Tool schemas  (Anthropic tool-use format)
+# Tool schemas  (OpenAI / Groq tool-use format)
 # ─────────────────────────────────────────────────────────────────────────────
 
 TOOL_SCHEMAS: List[Dict] = [
@@ -32,212 +32,242 @@ TOOL_SCHEMAS: List[Dict] = [
     # ── Core ─────────────────────────────────────────────────────────────────
 
     {
-        "name": "parse_intent",
-        "description": (
-            "Parse the user's shopping query to extract clean search keywords, "
-            "maximum budget in INR, product preferences, and category. "
-            "Call this early so every subsequent tool has structured intent to work from."
-        ),
-        "input_schema": {
-            "type": "object",
-            "properties": {
-                "query": {"type": "string", "description": "The user's shopping query"}
-            },
-            "required": ["query"],
-        },
-    },
-    {
-        "name": "search_products",
-        "description": (
-            "Search Google Shopping via SerpAPI for a SINGLE keyword string. "
-            "Prefer multi_search when you want comprehensive coverage. "
-            "Use this for targeted follow-up searches after multi_search."
-        ),
-        "input_schema": {
-            "type": "object",
-            "properties": {
-                "keywords":    {"type": "string",  "description": "Product search keywords"},
-                "max_price":   {"type": "number",  "description": "Max price filter in INR"},
-                "max_results": {"type": "integer", "description": "Results to fetch (default 12, max 20)"},
-            },
-            "required": ["keywords"],
-        },
-    },
-    {
-        "name": "refine_query",
-        "description": (
-            "Generate better search keywords when current results are insufficient. "
-            "After calling this, call search_products or multi_search with the new keywords."
-        ),
-        "input_schema": {
-            "type": "object",
-            "properties": {
-                "original_query": {"type": "string", "description": "The original user query"},
-                "problem":        {"type": "string", "description": "What is wrong with current results"},
-                "strategy": {
-                    "type": "string",
-                    "enum": ["broader", "narrower", "synonyms", "category_specific"],
-                    "description": "How to adjust the keywords",
+        "type": "function",
+        "function": {
+            "name": "parse_intent",
+            "description": (
+                "Parse the user's shopping query to extract clean search keywords, "
+                "maximum budget in INR, product preferences, and category. "
+                "Call this early so every subsequent tool has structured intent to work from."
+            ),
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "query": {"type": "string", "description": "The user's shopping query"}
                 },
+                "required": ["query"],
             },
-            "required": ["original_query", "problem", "strategy"],
+        },
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "search_products",
+            "description": (
+                "Search Google Shopping via SerpAPI for a SINGLE keyword string. "
+                "Prefer multi_search when you want comprehensive coverage. "
+                "Use this for targeted follow-up searches after multi_search."
+            ),
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "keywords":    {"type": "string",  "description": "Product search keywords"},
+                    "max_price":   {"type": "number",  "description": "Max price filter in INR"},
+                    "max_results": {"type": "integer", "description": "Results to fetch (default 12, max 20)"},
+                },
+                "required": ["keywords"],
+            },
+        },
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "refine_query",
+            "description": (
+                "Generate better search keywords when current results are insufficient. "
+                "After calling this, call search_products or multi_search with the new keywords."
+            ),
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "original_query": {"type": "string", "description": "The original user query"},
+                    "problem":        {"type": "string", "description": "What is wrong with current results"},
+                    "strategy": {
+                        "type": "string",
+                        "enum": ["broader", "narrower", "synonyms", "category_specific"],
+                        "description": "How to adjust the keywords",
+                    },
+                },
+                "required": ["original_query", "problem", "strategy"],
+            },
         },
     },
 
     # ── Power Search ─────────────────────────────────────────────────────────
 
     {
-        "name": "multi_search",
-        "description": (
-            "Run 2-3 parallel searches with DIFFERENT keyword strategies simultaneously, "
-            "then merge and deduplicate all results into a single enriched pool. "
-            "This is the MOST POWERFUL search tool — always prefer it over a single search_products call. "
-            "Example: to find gaming laptops comprehensively, provide queries like "
-            "['gaming laptop RTX under 80000', 'best gaming laptop India 2024', 'high performance portable laptop']."
-        ),
-        "input_schema": {
-            "type": "object",
-            "properties": {
-                "queries": {
-                    "type": "array",
-                    "items": {"type": "string"},
-                    "description": "2-3 varied keyword strings to search simultaneously",
+        "type": "function",
+        "function": {
+            "name": "multi_search",
+            "description": (
+                "Run 2-3 parallel searches with DIFFERENT keyword strategies simultaneously, "
+                "then merge and deduplicate all results into a single enriched pool. "
+                "This is the MOST POWERFUL search tool — always prefer it over a single search_products call. "
+                "Example: to find gaming laptops comprehensively, provide queries like "
+                "['gaming laptop RTX under 80000', 'best gaming laptop India 2024', 'high performance portable laptop']."
+            ),
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "queries": {
+                        "type": "array",
+                        "items": {"type": "string"},
+                        "description": "2-3 varied keyword strings to search simultaneously",
+                    },
+                    "max_price": {
+                        "type": "number",
+                        "description": "Max price filter applied to all sub-searches (INR)",
+                    },
                 },
-                "max_price": {
-                    "type": "number",
-                    "description": "Max price filter applied to all sub-searches (INR)",
-                },
+                "required": ["queries"],
             },
-            "required": ["queries"],
         },
     },
     {
-        "name": "find_alternatives",
-        "description": (
-            "Proactively search for alternative products — budget, premium, or similar variants — "
-            "relative to what is already in the pool. New results are MERGED in without replacing "
-            "existing products, giving rank_and_filter more options to work with. "
-            "Use when the current top result may be out of budget or the user could benefit "
-            "from seeing a different price tier."
-        ),
-        "input_schema": {
-            "type": "object",
-            "properties": {
-                "search_for": {
-                    "type": "string",
-                    "description": "Keywords for the alternatives (e.g. 'budget wireless earbuds under 1500')",
+        "type": "function",
+        "function": {
+            "name": "find_alternatives",
+            "description": (
+                "Proactively search for alternative products — budget, premium, or similar variants — "
+                "relative to what is already in the pool. New results are MERGED in without replacing "
+                "existing products, giving rank_and_filter more options to work with. "
+                "Use when the current top result may be out of budget or the user could benefit "
+                "from seeing a different price tier."
+            ),
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "search_for": {
+                        "type": "string",
+                        "description": "Keywords for the alternatives (e.g. 'budget wireless earbuds under 1500')",
+                    },
+                    "direction": {
+                        "type": "string",
+                        "enum": ["budget", "premium", "similar"],
+                        "description": "Whether to look for cheaper, more expensive, or side-grade alternatives",
+                    },
                 },
-                "direction": {
-                    "type": "string",
-                    "enum": ["budget", "premium", "similar"],
-                    "description": "Whether to look for cheaper, more expensive, or side-grade alternatives",
-                },
+                "required": ["search_for", "direction"],
             },
-            "required": ["search_for", "direction"],
         },
     },
 
     # ── Analysis ─────────────────────────────────────────────────────────────
 
     {
-        "name": "rank_and_filter",
-        "description": (
-            "Score and rank ALL products currently in the pool by value-for-money (0-100). "
-            "Optionally filter by minimum rating or max price. "
-            "Always call this after searching and before generating a recommendation."
-        ),
-        "input_schema": {
-            "type": "object",
-            "properties": {
-                "min_rating": {
-                    "type": "number",
-                    "description": "Minimum rating threshold 0-5 (0 = no filter)",
-                },
-                "max_price": {
-                    "type": "number",
-                    "description": "Max price in INR (overrides budget from intent if provided)",
-                },
-                "preference_keywords": {
-                    "type": "array",
-                    "items": {"type": "string"},
-                    "description": "Keywords that give a scoring bonus (e.g. ['wireless', 'noise-cancelling'])",
+        "type": "function",
+        "function": {
+            "name": "rank_and_filter",
+            "description": (
+                "Score and rank ALL products currently in the pool by value-for-money (0-100). "
+                "Optionally filter by minimum rating or max price. "
+                "Always call this after searching and before generating a recommendation."
+            ),
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "min_rating": {
+                        "type": "number",
+                        "description": "Minimum rating threshold 0-5 (0 = no filter)",
+                    },
+                    "max_price": {
+                        "type": "number",
+                        "description": "Max price in INR (overrides budget from intent if provided)",
+                    },
+                    "preference_keywords": {
+                        "type": "array",
+                        "items": {"type": "string"},
+                        "description": "Keywords that give a scoring bonus (e.g. ['wireless', 'noise-cancelling'])",
+                    },
                 },
             },
         },
     },
     {
-        "name": "compare_products",
-        "description": (
-            "Perform a detailed AI-powered head-to-head comparison of 2-3 specific products "
-            "from the current ranked pool. Returns an analysis covering value, specs, "
-            "pros/cons, and a clear winner for different use cases. "
-            "Call this when 2+ products are closely matched and the user needs a clear verdict."
-        ),
-        "input_schema": {
-            "type": "object",
-            "properties": {
-                "product_names": {
-                    "type": "array",
-                    "items": {"type": "string"},
-                    "description": "2-3 product names from current results to compare (partial names OK)",
+        "type": "function",
+        "function": {
+            "name": "compare_products",
+            "description": (
+                "Perform a detailed AI-powered head-to-head comparison of 2-3 specific products "
+                "from the current ranked pool. Returns an analysis covering value, specs, "
+                "pros/cons, and a clear winner for different use cases. "
+                "Call this when 2+ products are closely matched and the user needs a clear verdict."
+            ),
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "product_names": {
+                        "type": "array",
+                        "items": {"type": "string"},
+                        "description": "2-3 product names from current results to compare (partial names OK)",
+                    },
+                    "focus": {
+                        "type": "string",
+                        "description": "What to focus the comparison on (e.g. 'performance', 'value for money', 'battery life')",
+                    },
                 },
-                "focus": {
-                    "type": "string",
-                    "description": "What to focus the comparison on (e.g. 'performance', 'value for money', 'battery life')",
-                },
-            },
-            "required": ["product_names"],
-        },
-    },
-    {
-        "name": "get_market_insights",
-        "description": (
-            "Analyze the current product pool to map the price landscape: "
-            "identify budget / mid-range / premium segments, best value pick in each segment, "
-            "price range, and average. Use this to understand the market before recommending."
-        ),
-        "input_schema": {
-            "type": "object",
-            "properties": {
-                "category": {
-                    "type": "string",
-                    "description": "Product category for context (e.g. 'laptop', 'headphones')",
-                }
+                "required": ["product_names"],
             },
         },
     },
     {
-        "name": "evaluate_results",
-        "description": (
-            "Evaluate whether the current results adequately answer the user's query. "
-            "Returns a quality score and recommended next action. "
-            "Use when deciding whether to do more research or proceed to recommendation."
-        ),
-        "input_schema": {
-            "type": "object",
-            "properties": {
-                "user_query": {"type": "string", "description": "The original user query"}
+        "type": "function",
+        "function": {
+            "name": "get_market_insights",
+            "description": (
+                "Analyze the current product pool to map the price landscape: "
+                "identify budget / mid-range / premium segments, best value pick in each segment, "
+                "price range, and average. Use this to understand the market before recommending."
+            ),
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "category": {
+                        "type": "string",
+                        "description": "Product category for context (e.g. 'laptop', 'headphones')",
+                    }
+                },
             },
-            "required": ["user_query"],
+        },
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "evaluate_results",
+            "description": (
+                "Evaluate whether the current results adequately answer the user's query. "
+                "Returns a quality score and recommended next action. "
+                "Use when deciding whether to do more research or proceed to recommendation."
+            ),
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "user_query": {"type": "string", "description": "The original user query"}
+                },
+                "required": ["user_query"],
+            },
         },
     },
 
     # ── Output ────────────────────────────────────────────────────────────────
 
     {
-        "name": "generate_recommendation",
-        "description": (
-            "Generate a personalized 2-3 sentence recommendation based on the ranked products "
-            "and user's memory context. Call after rank_and_filter. "
-            "This is the final tool call before writing FINAL ANSWER."
-        ),
-        "input_schema": {
-            "type": "object",
-            "properties": {
-                "focus": {
-                    "type": "string",
-                    "description": "What to emphasize (e.g. 'best value', 'top rated', 'budget pick')",
-                }
+        "type": "function",
+        "function": {
+            "name": "generate_recommendation",
+            "description": (
+                "Generate a personalized 2-3 sentence recommendation based on the ranked products "
+                "and user's memory context. Call after rank_and_filter. "
+                "This is the final tool call before writing FINAL ANSWER."
+            ),
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "focus": {
+                        "type": "string",
+                        "description": "What to emphasize (e.g. 'best value', 'top rated', 'budget pick')",
+                    }
+                },
             },
         },
     },
@@ -245,67 +275,76 @@ TOOL_SCHEMAS: List[Dict] = [
     # ── Web Browsing ─────────────────────────────────────────────────────────
 
     {
-        "name": "web_search",
-        "description": (
-            "Search the REAL OPEN WEB (not just shopping APIs) for product reviews, "
-            "expert comparisons, benchmarks, specifications, YouTube reviews, and user opinions. "
-            "Use this to find: 'best gaming laptop 2024 review', '[product] vs [product]', "
-            "'[product] problems reddit', '[product] specifications'. "
-            "Returns titles, URLs, and snippets of real web pages."
-        ),
-        "input_schema": {
-            "type": "object",
-            "properties": {
-                "query": {
-                    "type": "string",
-                    "description": "Web search query (e.g. 'Sony WH-1000XM5 review India 2024')",
+        "type": "function",
+        "function": {
+            "name": "web_search",
+            "description": (
+                "Search the REAL OPEN WEB (not just shopping APIs) for product reviews, "
+                "expert comparisons, benchmarks, specifications, YouTube reviews, and user opinions. "
+                "Use this to find: 'best gaming laptop 2024 review', '[product] vs [product]', "
+                "'[product] problems reddit', '[product] specifications'. "
+                "Returns titles, URLs, and snippets of real web pages."
+            ),
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "query": {
+                        "type": "string",
+                        "description": "Web search query (e.g. 'Sony WH-1000XM5 review India 2024')",
+                    },
+                    "num_results": {
+                        "type": "integer",
+                        "description": "Number of results to return (default 5, max 8)",
+                    },
                 },
-                "num_results": {
-                    "type": "integer",
-                    "description": "Number of results to return (default 5, max 8)",
-                },
+                "required": ["query"],
             },
-            "required": ["query"],
         },
     },
     {
-        "name": "fetch_page_content",
-        "description": (
-            "Fetch and READ the actual content of a web page URL. "
-            "Use this after web_search to read a full review article, spec sheet, "
-            "or comparison post. Returns cleaned readable text from the page. "
-            "Particularly useful for reading expert reviews on sites like NDTV Gadgets, "
-            "91mobiles, GSMArena, Digit, or comparison articles."
-        ),
-        "input_schema": {
-            "type": "object",
-            "properties": {
-                "url": {
-                    "type": "string",
-                    "description": "The full URL to fetch (from web_search results)",
+        "type": "function",
+        "function": {
+            "name": "fetch_page_content",
+            "description": (
+                "Fetch and READ the actual content of a web page URL. "
+                "Use this after web_search to read a full review article, spec sheet, "
+                "or comparison post. Returns cleaned readable text from the page. "
+                "Particularly useful for reading expert reviews on sites like NDTV Gadgets, "
+                "91mobiles, GSMArena, Digit, or comparison articles."
+            ),
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "url": {
+                        "type": "string",
+                        "description": "The full URL to fetch (from web_search results)",
+                    },
                 },
+                "required": ["url"],
             },
-            "required": ["url"],
         },
     },
 
     # ── Memory ────────────────────────────────────────────────────────────────
 
     {
-        "name": "save_preference",
-        "description": (
-            "Permanently save an explicit user preference to long-term memory so it influences "
-            "future sessions. Use when the query reveals a strong preference, brand loyalty, "
-            "or hard requirement (e.g. preferred_brand=Sony, must_have=backlit_keyboard, "
-            "avoid_brand=Apple). The preference persists across app restarts."
-        ),
-        "input_schema": {
-            "type": "object",
-            "properties": {
-                "key":   {"type": "string", "description": "Preference category (e.g. 'preferred_brand', 'must_have_feature', 'avoid')"},
-                "value": {"type": "string", "description": "The preference value"},
+        "type": "function",
+        "function": {
+            "name": "save_preference",
+            "description": (
+                "Permanently save an explicit user preference to long-term memory so it influences "
+                "future sessions. Use when the query reveals a strong preference, brand loyalty, "
+                "or hard requirement (e.g. preferred_brand=Sony, must_have=backlit_keyboard, "
+                "avoid_brand=Apple). The preference persists across app restarts."
+            ),
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "key":   {"type": "string", "description": "Preference category (e.g. 'preferred_brand', 'must_have_feature', 'avoid')"},
+                    "value": {"type": "string", "description": "The preference value"},
+                },
+                "required": ["key", "value"],
             },
-            "required": ["key", "value"],
         },
     },
 ]
@@ -407,7 +446,7 @@ class ToolExecutor:
         strategy = inp.get("strategy", "broader")
         tried    = ", ".join(self.state["search_attempts"][-3:])
 
-        client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
+        client = groq.Groq(api_key=os.getenv("GROQ_API_KEY"))
         prompt = (
             f"Generate better product search keywords.\n"
             f"Original query: '{original}'\nProblem: {problem}\n"
@@ -415,11 +454,11 @@ class ToolExecutor:
             "Return ONLY the new keywords as a single line. No explanation."
         )
         try:
-            msg = client.messages.create(
-                model="claude-haiku-4-5-20251001", max_tokens=64,
+            msg = client.chat.completions.create(
+                model="llama-3.1-8b-instant", max_tokens=64,
                 messages=[{"role": "user", "content": prompt}],
             )
-            new_kw = msg.content[0].text.strip().strip('"')
+            new_kw = msg.choices[0].message.content.strip().strip('"')
         except Exception:
             words  = original.lower().split()
             new_kw = " ".join(words[:3]) if strategy == "broader" else original + " buy online India"
@@ -566,7 +605,7 @@ class ToolExecutor:
             f"Score: {p.get('score', 0):.0f}/100"
             for i, p in enumerate(found)
         )
-        client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
+        client = groq.Groq(api_key=os.getenv("GROQ_API_KEY"))
         prompt = (
             f"Compare these products for an Indian buyer, focusing on {focus}:\n\n"
             f"{items_text}\n\n"
@@ -574,11 +613,11 @@ class ToolExecutor:
             "Be specific with prices. No markdown."
         )
         try:
-            msg = client.messages.create(
-                model="claude-haiku-4-5-20251001", max_tokens=220,
+            msg = client.chat.completions.create(
+                model="llama-3.1-8b-instant", max_tokens=220,
                 messages=[{"role": "user", "content": prompt}],
             )
-            comparison = msg.content[0].text.strip()
+            comparison = msg.choices[0].message.content.strip()
         except Exception:
             best = max(found, key=lambda x: x.get("score", 0))
             comparison = (

@@ -2,7 +2,7 @@
 ReActAgent — Truly Autonomous AI Shopping Agent.
 
 What makes this genuinely agentic:
-  • No fixed pipeline — Claude plans its own sequence of tools every run
+  • No fixed pipeline — Groq Llama plans its own sequence of tools every run
   • 12 tools across 5 categories (search, analysis, comparison, memory, output)
   • Multi-search strategy for comprehensive product coverage
   • Persistent memory: recalls past searches, saves preferences permanently
@@ -11,10 +11,11 @@ What makes this genuinely agentic:
 """
 
 from __future__ import annotations
+import json
 import os
 from typing import Any, Callable, Dict, List, Optional
 
-import anthropic
+import groq
 
 from agents.tools_registry import TOOL_SCHEMAS, ToolExecutor
 
@@ -79,13 +80,13 @@ FINAL ANSWER:
 
 class ReActAgent:
     def __init__(self) -> None:
-        self._client: Optional[anthropic.Anthropic] = None
+        self._client: Optional[groq.Groq] = None
         self.executor = ToolExecutor()
 
     @property
-    def client(self) -> anthropic.Anthropic:
+    def client(self) -> groq.Groq:
         if self._client is None:
-            self._client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
+            self._client = groq.Groq(api_key=os.getenv("GROQ_API_KEY"))
         return self._client
 
     # ── Main entry point ───────────────────────────────────────────────────
@@ -111,15 +112,12 @@ class ReActAgent:
         filters = filters or {}
 
         # Build the opening user message.
-        # Memory context is intentionally kept brief here — detailed history
-        # is fetched via recall_past_searches so Claude knows it's context-only.
         user_msg = f'Find me: "{query}"'
         if filters.get("max_price"):
             user_msg += f"\nBudget: max ₹{int(filters['max_price']):,}"
         if filters.get("min_rating"):
             user_msg += f"\nMin rating: {filters['min_rating']}"
         if memory_context:
-            # Only pass lightweight preference signals, not full search history
             pref_lines = [
                 ln for ln in memory_context.splitlines()
                 if any(kw in ln for kw in ("budget", "Budget", "Interest", "preference", "Goal"))
@@ -127,9 +125,13 @@ class ReActAgent:
             if pref_lines:
                 user_msg += "\n\nKnown preferences:\n" + "\n".join(pref_lines[:5])
 
-        messages:   List[Dict] = [{"role": "user", "content": user_msg}]
-        final_text: str        = ""
-        iteration:  int        = 0
+        # Groq uses system message inside the messages list
+        messages: List[Dict] = [
+            {"role": "system", "content": _SYSTEM_PROMPT},
+            {"role": "user",   "content": user_msg},
+        ]
+        final_text: str = ""
+        iteration:  int = 0
 
         while iteration < max_iterations:
             iteration += 1
@@ -137,34 +139,50 @@ class ReActAgent:
             if callback:
                 callback("thinking", "running", {"iteration": iteration})
 
-            response = self.client.messages.create(
-                model      = "claude-sonnet-4-6",
+            response = self.client.chat.completions.create(
+                model      = "llama-3.3-70b-versatile",
                 max_tokens = 2048,
-                system     = _SYSTEM_PROMPT,
                 tools      = TOOL_SCHEMAS,
                 messages   = messages,
             )
 
-            messages.append({"role": "assistant", "content": response.content})
+            choice = response.choices[0]
+            assistant_msg = choice.message
+
+            # Build a serialisable assistant message dict
+            asst_dict: Dict[str, Any] = {
+                "role":    "assistant",
+                "content": assistant_msg.content or "",
+            }
+            if assistant_msg.tool_calls:
+                asst_dict["tool_calls"] = [
+                    {
+                        "id":   tc.id,
+                        "type": "function",
+                        "function": {
+                            "name":      tc.function.name,
+                            "arguments": tc.function.arguments,
+                        },
+                    }
+                    for tc in assistant_msg.tool_calls
+                ]
+            messages.append(asst_dict)
 
             # ── Agent finished ─────────────────────────────────────────────
-            if response.stop_reason == "end_turn":
-                for block in response.content:
-                    if hasattr(block, "text") and block.text:
-                        final_text = block.text
+            if choice.finish_reason == "stop":
+                final_text = assistant_msg.content or ""
                 if callback:
                     callback("thinking", "complete", {"text": final_text})
                 break
 
             # ── Tool calls ─────────────────────────────────────────────────
-            if response.stop_reason == "tool_use":
-                tool_results = []
-                for block in response.content:
-                    if block.type != "tool_use":
-                        continue
-
-                    tool_name  = block.name
-                    tool_input = block.input
+            if choice.finish_reason == "tool_calls" and assistant_msg.tool_calls:
+                for tc in assistant_msg.tool_calls:
+                    tool_name  = tc.function.name
+                    try:
+                        tool_input = json.loads(tc.function.arguments)
+                    except Exception:
+                        tool_input = {}
 
                     if callback:
                         callback(tool_name, "running", tool_input)
@@ -174,13 +192,12 @@ class ReActAgent:
                     if callback:
                         callback(tool_name, "complete", {"result": result_str, "input": tool_input})
 
-                    tool_results.append({
-                        "type":        "tool_result",
-                        "tool_use_id": block.id,
-                        "content":     result_str,
+                    # Each tool result is a separate message in OpenAI/Groq format
+                    messages.append({
+                        "role":         "tool",
+                        "tool_call_id": tc.id,
+                        "content":      result_str,
                     })
-
-                messages.append({"role": "user", "content": tool_results})
             else:
                 break
 

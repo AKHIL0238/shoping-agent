@@ -1,6 +1,6 @@
 """
 Recommend Agent — generates a concise, personalized shopping recommendation
-using Claude Haiku.  Includes memory context for personalization.
+using Groq Llama.  Includes memory context for personalization.
 """
 
 from __future__ import annotations
@@ -8,17 +8,17 @@ import os
 import json
 from typing import List, Dict
 
-import anthropic
+import groq
 
 
 class RecommendAgent:
     def __init__(self):
-        self._client: anthropic.Anthropic | None = None
+        self._client: groq.Groq | None = None
 
     @property
-    def client(self) -> anthropic.Anthropic:
+    def client(self) -> groq.Groq:
         if self._client is None:
-            self._client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
+            self._client = groq.Groq(api_key=os.getenv("GROQ_API_KEY"))
         return self._client
 
     def recommend(
@@ -53,13 +53,15 @@ class RecommendAgent:
             user_msg += f"\n\nUser context:\n{memory_context}"
 
         try:
-            msg = self.client.messages.create(
-                model="claude-haiku-4-5-20251001",
+            msg = self.client.chat.completions.create(
+                model="llama-3.1-8b-instant",
                 max_tokens=300,
-                system=system,
-                messages=[{"role": "user", "content": user_msg}],
+                messages=[
+                    {"role": "system", "content": system},
+                    {"role": "user", "content": user_msg},
+                ],
             )
-            return msg.content[0].text.strip()
+            return msg.choices[0].message.content.strip()
         except Exception as exc:
             if top5:
                 p = top5[0]

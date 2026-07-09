@@ -9,7 +9,7 @@ import json
 import re
 from typing import List, Dict
 
-import anthropic
+import groq
 
 
 _DEFAULT_PLAN = [
@@ -22,15 +22,15 @@ _DEFAULT_PLAN = [
 
 
 class PlannerAgent:
-    """Uses Claude Haiku to build a dynamic search plan."""
+    """Uses Groq Llama to build a dynamic search plan."""
 
     def __init__(self):
-        self._client: anthropic.Anthropic | None = None
+        self._client: groq.Groq | None = None
 
     @property
-    def client(self) -> anthropic.Anthropic:
+    def client(self) -> groq.Groq:
         if self._client is None:
-            self._client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
+            self._client = groq.Groq(api_key=os.getenv("GROQ_API_KEY"))
         return self._client
 
     def create_plan(self, query: str, context: str = "") -> List[Dict]:
@@ -51,13 +51,15 @@ class PlannerAgent:
             user_msg += f"\n\nContext:\n{context}"
 
         try:
-            msg = self.client.messages.create(
-                model="claude-haiku-4-5-20251001",
+            msg = self.client.chat.completions.create(
+                model="llama-3.1-8b-instant",
                 max_tokens=512,
-                system=system,
-                messages=[{"role": "user", "content": user_msg}],
+                messages=[
+                    {"role": "system", "content": system},
+                    {"role": "user", "content": user_msg},
+                ],
             )
-            text = msg.content[0].text
+            text = msg.choices[0].message.content
             # Extract JSON array from response
             match = re.search(r"\[.*\]", text, re.DOTALL)
             if match:

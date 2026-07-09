@@ -23,7 +23,7 @@ st.set_page_config(
     page_icon="🛍️",
     layout="wide",
     initial_sidebar_state="expanded",
-    menu_items={"About": "ShopMind AI — Powered by Claude & SerpAPI"},
+    menu_items={"About": "ShopMind AI — Powered by Groq & SerpAPI"},
 )
 
 import json
@@ -122,7 +122,7 @@ def render_sidebar() -> None:
                           -webkit-background-clip:text;-webkit-text-fill-color:transparent;
                           background-clip:text;">ShopMind AI</div>
               <div style="font-size:0.72rem;color:rgba(255,255,255,0.35);margin-top:4px;">
-                Powered by Claude
+                Powered by Groq
               </div>
             </div>
             <hr style="border:none;border-top:1px solid rgba(255,255,255,0.08);margin:8px 0 14px;">
@@ -220,7 +220,7 @@ def render_sidebar() -> None:
 
         st.markdown(
             "<div style='text-align:center;padding:20px 0 8px;"
-            "color:rgba(255,255,255,0.22);font-size:0.72rem;'>Claude · SerpAPI · LangGraph</div>",
+            "color:rgba(255,255,255,0.22);font-size:0.72rem;'>Groq · SerpAPI · LangGraph</div>",
             unsafe_allow_html=True,
         )
 
@@ -504,16 +504,16 @@ def _execute_search(query: str) -> None:
         err_type = type(exc).__name__
         if "APIConnectionError" in err_type or "Connection" in str(exc):
             msg = (
-                "**🌐 Connection Error** — Could not reach the Anthropic API.\n\n"
+                "**🌐 Connection Error** — Could not reach the Groq API.\n\n"
                 "**Possible causes:**\n"
                 "- No internet connection\n"
-                "- Firewall or proxy blocking `api.anthropic.com`\n"
+                "- Firewall or proxy blocking `api.groq.com`\n"
                 "- VPN interfering with outbound HTTPS\n\n"
                 "**Fix:** Check your network, then try again."
             )
         elif "AuthenticationError" in err_type or "401" in str(exc):
             msg = (
-                "**🔑 Authentication Error** — Your `ANTHROPIC_API_KEY` is missing or invalid.\n\n"
+                "**🔑 Authentication Error** — Your `GROQ_API_KEY` is missing or invalid.\n\n"
                 "Check your `.env` file and restart the app."
             )
         elif "SERPAPI_QUOTA_EXCEEDED" in str(exc):
@@ -975,7 +975,7 @@ def render_settings() -> None:
                 unsafe_allow_html=True,
             )
 
-        _notif("Claude API", "ANTHROPIC_API_KEY")
+        _notif("Groq API", "GROQ_API_KEY")
         _notif("SerpAPI",    "SERPAPI_API_KEY")
 
     with c2:
@@ -999,12 +999,12 @@ def render_settings() -> None:
     st.markdown("---")
     st.markdown("#### Agent Pipeline")
     for icon, name, model, desc in [
-        ("📋", "Planner",     "Claude Haiku",   "Decomposes query into steps"),
-        ("🧠", "Intent",      "Claude Haiku",   "Extracts keywords, budget, preferences"),
+        ("📋", "Planner",     "Groq Llama 3.1", "Decomposes query into steps"),
+        ("🧠", "Intent",      "Groq Llama 3.1", "Extracts keywords, budget, preferences"),
         ("🔍", "Search",      "SerpAPI",        "Google Shopping — up to 20 results"),
         ("⚖️",  "Compare",     "Python scoring", "Value-for-money ranking"),
-        ("💡", "Recommend",   "Claude Haiku",   "Personalized recommendation"),
-        ("✨", "Reflect",     "Claude Haiku",   "Quality check & improvement"),
+        ("💡", "Recommend",   "Groq Llama 3.1", "Personalized recommendation"),
+        ("✨", "Reflect",     "Groq Llama 3.1", "Quality check & improvement"),
     ]:
         st.markdown(
             f"""<div class="glass-card" style="padding:13px 18px;margin-bottom:8px;">
@@ -1029,7 +1029,7 @@ def render_settings() -> None:
           <div style="font-weight:700;font-size:1.05rem;margin-bottom:10px;">🛍️ ShopMind AI v2.0</div>
           <div style="color:rgba(255,255,255,0.55);font-size:0.88rem;line-height:1.85;">
             <b>Framework:</b> Streamlit + LangGraph<br>
-            <b>AI:</b> Anthropic Claude Haiku (fast, cost-efficient)<br>
+            <b>AI:</b> Groq Llama 3.1 (fast, cost-efficient)<br>
             <b>Search:</b> SerpAPI — Google Shopping India<br>
             <b>Architecture:</b> Multi-agent pipeline with Memory &amp; Reflection
           </div>
@@ -1294,8 +1294,8 @@ def _cart_confirm() -> None:
 
 
 def _generate_order_review(cart, ship_info: dict) -> str:
-    """Call Claude Haiku to generate a 2-3 sentence order review."""
-    import anthropic as _ant
+    """Call Groq Llama to generate a 2-3 sentence order review."""
+    import groq as _groq
     items_text = "\n".join(
         f"- {it.name} ×{it.quantity} @ ₹{int(it.price):,}"
         for it in cart.items
@@ -1313,13 +1313,13 @@ def _generate_order_review(cart, ship_info: dict) -> str:
         f"End with a positive note encouraging them to proceed."
     )
     try:
-        client = _ant.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
-        resp   = client.messages.create(
-            model      = "claude-haiku-4-5-20251001",
+        client = _groq.Groq(api_key=os.getenv("GROQ_API_KEY"))
+        resp   = client.chat.completions.create(
+            model      = "llama-3.1-8b-instant",
             max_tokens = 140,
             messages   = [{"role": "user", "content": prompt}],
         )
-        return resp.content[0].text.strip()
+        return resp.choices[0].message.content.strip()
     except Exception:
         return (
             f"Your order of {cart.count} item(s) totalling ₹{cart.total:,.2f} is ready to go! "
