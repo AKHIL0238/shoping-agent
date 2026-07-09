@@ -385,7 +385,7 @@ class ToolExecutor:
                 return json.dumps({"error": f"Unknown tool: {tool_name}"})
             return handler(tool_input)
         except RuntimeError as exc:
-            if "SERPAPI_QUOTA_EXCEEDED" in str(exc):
+            if "SERPAPI_QUOTA_EXCEEDED" in str(exc) or "SERPAPI_ERROR" in str(exc):
                 raise   # let it surface to the UI with a clear message
             return json.dumps({"error": f"{tool_name} failed: {exc}"})
         except Exception as exc:
@@ -492,7 +492,7 @@ class ToolExecutor:
                 self.state["raw_products"].extend(new)
                 summary[q] = {"fetched": len(products), "new_added": len(new)}
             except RuntimeError as exc:
-                if "SERPAPI_QUOTA_EXCEEDED" in str(exc):
+                if "SERPAPI_QUOTA_EXCEEDED" in str(exc) or "SERPAPI_ERROR" in str(exc):
                     raise
                 summary[q] = {"error": str(exc)}
             except Exception as exc:
@@ -535,7 +535,7 @@ class ToolExecutor:
                 "alternatives": sample,
             })
         except RuntimeError as exc:
-            if "SERPAPI_QUOTA_EXCEEDED" in str(exc):
+            if "SERPAPI_QUOTA_EXCEEDED" in str(exc) or "SERPAPI_ERROR" in str(exc):
                 raise
             return json.dumps({"error": f"Search failed: {exc}"})
         except Exception as exc:

@@ -525,6 +525,15 @@ def _execute_search(query: str) -> None:
                 "- **Upgrade:** SerpAPI paid plans start at $50/month for 5,000 searches.\n"
                 "- **Wait:** Free quota resets on your billing date."
             )
+        elif "SERPAPI_ERROR" in str(exc) or "SERPAPI_API_KEY is not set" in str(exc):
+            msg = (
+                "**🔍 SerpAPI Error** — SerpAPI rejected the request instead of returning products.\n\n"
+                f"**Details:** `{exc}`\n\n"
+                "**Common causes:**\n"
+                "- `SERPAPI_API_KEY` is missing, invalid, or expired\n"
+                "- Free trial has ended for this key\n\n"
+                "**Fix:** Get/verify a key at [serpapi.com](https://serpapi.com) and set `SERPAPI_API_KEY` in `.env`, then restart the app."
+            )
         elif "RateLimitError" in err_type or "429" in str(exc):
             msg = "**⏳ Rate Limit** — Too many requests. Wait a moment and try again."
         else:

@@ -70,6 +70,13 @@ class SearchAgent:
         }
 
         data = self._fetch_with_retry(params)
+
+        if "error" in data:
+            # SerpAPI returns HTTP 200 with an "error" field for invalid keys,
+            # expired trials, or unsupported params — surface this clearly
+            # instead of silently returning an empty product list.
+            raise RuntimeError(f"SERPAPI_ERROR: {data['error']}")
+
         raw_items = data.get("shopping_results", [])
 
         products: List[Dict] = []
