@@ -133,18 +133,48 @@ class ReActAgent:
         final_text: str = ""
         iteration:  int = 0
 
+        tool_use_retries = 0
+
         while iteration < max_iterations:
             iteration += 1
 
             if callback:
                 callback("thinking", "running", {"iteration": iteration})
 
-            response = self.client.chat.completions.create(
-                model      = "llama-3.3-70b-versatile",
-                max_tokens = 2048,
-                tools      = TOOL_SCHEMAS,
-                messages   = messages,
-            )
+            try:
+                response = self.client.chat.completions.create(
+                    model      = "llama-3.3-70b-versatile",
+                    max_tokens = 2048,
+                    tools      = TOOL_SCHEMAS,
+                    messages   = messages,
+                )
+            except groq.APIStatusError as exc:
+                # Groq/Llama occasionally emits malformed tool-call JSON, surfaced
+                # as a 400 'tool_use_failed'. Nudge the model and retry a couple
+                # times instead of crashing the whole search.
+                is_tool_use_failed = (
+                    getattr(exc, "status_code", None) == 400
+                    and "tool_use_failed" in str(exc)
+                )
+                if is_tool_use_failed and tool_use_retries < 2:
+                    tool_use_retries += 1
+                    iteration -= 1  # don't count this as a real iteration
+                    messages.append({
+                        "role": "user",
+                        "content": (
+                            "Your last tool call had invalid arguments and could not be "
+                            "processed. Call ONE tool at a time with valid, complete JSON "
+                            "arguments matching its schema exactly."
+                        ),
+                    })
+                    if callback:
+                        callback("thinking", "retry", {"reason": "tool_use_failed"})
+                    continue
+                # Out of retries or a different error — stop the loop gracefully
+                # so the caller still gets whatever products were found so far.
+                if callback:
+                    callback("thinking", "error", {"error": str(exc)})
+                break
 
             choice = response.choices[0]
             assistant_msg = choice.message
